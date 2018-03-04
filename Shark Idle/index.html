@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			Shark Game - I need a better title!
+		</title>
+		<link rel="stylesheet" href="css/stylesheet.css"></link>
+		<link rel="stylesheet" href ="https://cdnjs.cloudflare.com/ajax/libs/angular-css/1.0.8/angular-css.js">
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="js/sharks.js"></script>
+	</head>
+	<body>
+	<div ng-app="sharks" ng-controller="control">
+		<div id = "statsbar">
+			<p class="stat">Inhabitants: <span>{{inhabitants}}</span></p>
+		</div>
+		<div id= "triumvirate">
+			<div id="mayor" class = "person">
+				<p class="positiontitle">Mayor:</p>
+				{{mayor.name}}
+				<button ng-click="promote(mayor)" ng-show="mayor.occupied===false">Promote</button>
+			</div>
+			<div id = "general" class = "person">
+			<p class="positiontitle">General:</p>
+				{{general.name}}
+				<button ng-click="promote(general)" ng-show="general.occupied===false">Promote</button>
+			</div>
+			<div id="cleric" class = "person">
+			<p class="positiontitle">High Cleric:</p>
+				{{cleric.name}}
+				<button ng-click="promote(cleric)" ng-show="cleric.occupied===false">Promote</button>
+			</div>
+		</div>
+		<div id = "civil" ng-show=mayor.occupied>
+		SOME TEXT HERE
+		</div>
+	</div>
+	</body>
+</html>
