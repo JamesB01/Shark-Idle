@@ -17,13 +17,15 @@
 	<div ng-app="sharks" ng-controller="control">
 		<div id = "statsbar">
 			<p class="stat">Inhabitants: <span>{{inhabitants}}</span></p>
-			<p class="stat">Territory: <span>{{territory}}</span></p>
+			<p class="stat">Territory: <span>{{territory | number:2}}</span></p>
 			<p class="stat">Housing: <span>{{housing}}</span></p>
-			<p class="stat">Basalt: <span>{{basalt}}</span></p>
-			<p class="stat">Seaweed: <span>{{seaweed}}</span></p>
+			<p class="stat">Basalt: <span>{{basalt | number:0}}</span></p>
+			<p class="stat">Seaweed: <span>{{seaweed | number:0}}</span></p>
+			<p class="stat" ng-show="ironore>0">Iron Ore: <span>{{ironore | number:2}}</span></p>
+			<p class="stat" ng-show="kelp>0">Kelp Wood: <span>{{kelp | number:2}}</span></p>
 		</div>
 		<div class="container-fluid">
-			<div id= "triumvirate">
+			<div class="row" id= "triumvirate">
 				<div class="col-sm-4">
 					<div id="mayor" class = "person">
 						<p class="positiontitle">Mayor:</p>
