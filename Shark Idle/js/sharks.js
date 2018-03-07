@@ -1,6 +1,6 @@
 var app = angular.module('sharks', []);
 
-app.controller('control', function($scope) {
+app.controller('control', function($scope, $interval) {
 	//resources
 	$scope.inhabitants = 12;
 	$scope.totalPeople = 12;
@@ -23,6 +23,10 @@ app.controller('control', function($scope) {
 	
 	//spawning trackers
 	$scope.spawnRegularTime=10;
+	
+	//timing
+	$scope.seconds = 10;
+	$scope.currentseconds = 10;
 	
 	//positions
 	$scope.mayor={name:"You do not have a mayor", occupied: false};
@@ -61,7 +65,7 @@ app.controller('control', function($scope) {
 	$scope.promote = function(person){
 		if (person.occupied === false){
 			if ($scope.inhabitants == 0){
-				window.alert("You don't have anyone to promote!")
+				$scope.displaymessage("You do not have anyone to promote");
 			}
 			else{
 				$scope.inhabitants -= 1;
@@ -84,27 +88,32 @@ app.controller('control', function($scope) {
 	}
 	
 	$scope.newday = function(){
+		//resets
+		$scope.currentseconds = $scope.seconds;
 		//civil stuff
 		//collectors
 		$scope.seaweed += 2*$scope.collectors.number;
 		if(!$scope.kelpforest){
 			var diceroll = Math.floor((Math.random() * 100) + 1);
 			if (diceroll<$scope.collectors.number){
-				window.alert("Your collectors have discovered a kelp forest");
+				$scope.displaymessage("Your collectors have discovered a kelp forest!");
 				$scope.kelpforest = Math.floor((Math.random() * 2000) + 1);
 			}
 		}
 		else {
-			var kelpmined = (Math.min($scope.kelpforest, ($scope.miners.number/10)));
+			var kelpmined = (Math.min($scope.kelpforest, ($scope.collectors.number/10)));
 			$scope.kelp += kelpmined;
 			$scope.kelpforest -= kelpmined;
+			if (!$scope.kelpforest){
+				$scope.displaymessage("The kelp forest has been cut down!");
+			}
 		}
 		//miners
 		$scope.basalt += ($scope.miners.number/5);
 		if(!$scope.ironvein){
 			var diceroll = Math.floor((Math.random() * 100) + 1);
 			if (diceroll<$scope.miners.number){
-				window.alert("Your miners have discovered an iron vein");
+				$scope.displaymessage("Your miners have discovered an iron mine!");
 				$scope.ironvein = Math.floor((Math.random() * 2000) + 1);
 			}
 		}
@@ -112,9 +121,12 @@ app.controller('control', function($scope) {
 			var ironmined = (Math.min($scope.ironvein, ($scope.miners.number/10)));
 			$scope.ironore += ironmined;
 			$scope.ironvein -= ironmined;
+			if (!$scope.ironvein){
+				$scope.displaymessage("The iron vein has been mined out!");
+			}
 		}
 		//builders
-		if($scope.territory >= $scope.housing+1){
+		if($scope.territory >= ($scope.housing+1)){
 			var seaweedUsed = Math.min($scope.seaweedToHouse, ($scope.builders.number/5), $scope.seaweed);
 			$scope.seaweed-=seaweedUsed;
 			$scope.seaweedToHouse-=seaweedUsed;
@@ -149,9 +161,37 @@ app.controller('control', function($scope) {
 		//monks
 	}
 	
+	//message handling
+	$scope.displaymessage = function(message){
+		document.getElementById("messagebuffer").innerHTML += "<p style=\"opacity:1\">" + message + "</p>";
+	}
+	
+	$scope.degrademessages = function(){
+		var messagediv = document.getElementById("messagebuffer");
+		var descendents = messagediv.getElementsByTagName('P');
+		var i,e,t;
+		for (i = 0; i < descendents.length; ++i) {
+			e = descendents[i];
+			t = e.style.opacity;
+			e.style.opacity = t-0.1;
+			if (e.style.opacity <= 0){
+				messagediv.removeChild(e);
+			}
+		}
+	}
+	
 	
 	//assorted utility functions
 	$scope.randomName = function(){
 		return $scope.names[Math.floor(Math.random()*$scope.names.length)];
 	}
+	
+	//autoonwards
+	$interval(function() {
+		$scope.currentseconds--;
+		if(!$scope.currentseconds){
+			$scope.degrademessages();
+			$scope.newday();
+		}
+	}, 1000);
 });

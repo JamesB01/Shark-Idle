@@ -3,3 +3,7 @@
 	display: inline-block;
 	width: 100%;
 }
+
+#messagebuffer p{
+	margin:0;
+}
