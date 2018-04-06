@@ -27,28 +27,32 @@
 		<div class="container-fluid">
 			<div class="row" id= "triumvirate">
 				<div class="col-sm-4">
-					<div id="mayor" class = "person">
+					<div id="mayor" class = "person leader">
 						<p class="positiontitle">Mayor:</p>
 						{{mayor.name}}
+						<br>
+						Level: {{mayor.level}}
+						<br>
+						Prestige: {{mayor.prestige}}
 						<button ng-click="promote(mayor)" ng-show="mayor.occupied===false">Promote</button>
 					</div>
 				</div>
 				<div class="col-sm-4">
-					<div id = "general" class = "person">
+					<div id = "general" class = "person leader">
 					<p class="positiontitle">General:</p>
 						{{general.name}}
 						<button ng-click="promote(general)" ng-show="general.occupied===false">Promote</button>
 					</div>
 				</div>
 				<div class="col-sm-4">
-					<div id="cleric" class = "person">
+					<div id="cleric" class = "person leader">
 					<p class="positiontitle">High Cleric:</p>
 						{{cleric.name}}
 						<button ng-click="promote(cleric)" ng-show="cleric.occupied===false">Promote</button>
 					</div>
 				</div>
 			</div>
-		
+			<br>
 			<div class="row">
 				<div class="col-sm-4">
 					<div id = "civil" ng-show=mayor.occupied>
@@ -108,13 +112,13 @@
 				</div>
 				<div class="col-sm-4">
 					<div id = "religious" ng-show=cleric.occupied>
-						<div id="spawn" class = "person">
+						<div id="spawner" class = "person">
 							<p class="positiontitle">Spawning Overseer:</p>
-							{{spawn.name}}
-							<p>{{spawns.number}} subordinates</p>
-							<button ng-click="promote(spawn)" ng-show="spawn.occupied===false">Promote</button>
-							<button ng-click="subordinates(spawns)" ng-show="spawn.occupied  && inhabitants>0">Assign a subordinate</button>
-							<button ng-click="removeSubordinates(spawns)" ng-show="spawns.number>0 && spawn.occupied">Remove a subordinate</button>
+							{{spawner.name}}
+							<p>{{spawners.number}} subordinates</p>
+							<button ng-click="promote(spawner)" ng-show="spawner.occupied===false">Promote</button>
+							<button ng-click="subordinates(spawners)" ng-show="spawner.occupied  && inhabitants>0">Assign a subordinate</button>
+							<button ng-click="removeSubordinates(spawners)" ng-show="spawners.number>0 && spawner.occupied">Remove a subordinate</button>
 						</div>
 						<div id="tamer" class = "person">
 							<p class="positiontitle">Tamer:</p>
